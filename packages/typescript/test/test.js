@@ -45,6 +45,22 @@ test('ignores the declaration option', async (t) => {
   );
 });
 
+test('reports compiler option errors', async(t) => {
+  process.chdir('fixtures/compiler-error');
+
+  const caughtError = await t.throws(() =>
+    rollup({
+      input: 'fixtures/basic/main.ts',
+      plugins: [typescript({ })]
+    })
+  );
+
+  t.true(
+    caughtError.messages.include(""),
+    `Unexpected error message: ${}`
+  )
+})
+
 test('throws for unsupported module types', async (t) => {
   const caughtError = await t.throws(() =>
     rollup({
